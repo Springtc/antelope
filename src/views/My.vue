@@ -10,26 +10,26 @@
                 <div class="form-text">
                   <img :src="userPic" alt="" class='userPic'>
                 </div>
-                >
             </div>
             <div class="item" @click='changeName'>
                 <label class="label">用户名</label>
                 <div class="form-text">{{userName}}</div>
-                >
             </div>
             <div class="item" @click="showPicker">
                 <label class="label">性别</label>
                 <div class="form-text">{{userSex}}</div>
-                >
             </div>
             <div class="item">
-                <label class="label">绑定手机</label>
-                <div class="form-text">{{userPhone}}</div>
+                <label class="label">年龄</label>
+                <div class="form-text">{{userAge}}</div>
             </div>
             <div class="item">
-                <label class="label">绑定微信</label>
-                <div class="form-text">{{userWx}}</div>
-                >
+                <label class="label">学号</label>
+                <div class="form-text">{{userSno}}</div>
+            </div>
+             <div class="item">
+                <label class="label">余额</label>
+                <div class="form-text">¥{{userRemainder}}</div>
             </div>
             <router-link :to="{ name: '我的地址'}" class="my-settle-top">
               <div class="item">
@@ -67,10 +67,18 @@ export default {
       list_two: false,
       userName: "Spring",
       userSex: "男",
+      userSno: "31202209",
+      userRemainder: "300",
       userPhone: "15757101915",
       userWx: "已绑定",
       userAdress: "",
-      slots: [{ values: ["男", "女"] }],
+      userAge: "27",
+      slots: [
+        {
+          values: ["男", "女"],
+          defaultIndex: 0
+        }
+      ],
       sexShow: false,
       userPic: "./static/homePic/cat.jpeg"
     };
@@ -101,10 +109,14 @@ export default {
       this.list_first = true;
       this.list_two = false;
       axios({
-        method: post,
+        method: "post",
         url: "",
         data: {
-          userName: this.userName
+          userName: this.userName,
+          sex: this.userSex,
+          age: this.userAge,
+          sno: this.userSno,
+          remainder: this.userRemainder
         }
       })
         .then(res => {
@@ -116,7 +128,9 @@ export default {
       this.sexShow = true;
     },
     onValuesChange(picker, values) {
-      this.userSex = values[0];
+      if (values) {
+        this.userSex = values[0];
+      }
       console.log(values);
       this.sexShow = false;
     },
