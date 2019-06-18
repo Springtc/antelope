@@ -1,53 +1,73 @@
 <template lang="html">
-
-  <div class="pay">
-    <v-header>
-      <h1 slot="title">确认订单</h1>
-    </v-header>
-    <div class="pay-type">
-      <div class="pay-type-l">
-        <mt-switch v-model="payType" @change="changePay"></mt-switch>
-        <span style='position: relative;top: -2vw;font-size: 4vw;'>{{payText}}</span>
-      </div>
-      <div class="pay-">
-
-      </div>
-    </div>
-    <div class="pay-address">
-      <div>
-        <p class="main-address-per">收货人:<span>王先生</span></p>
-        <p class="main-address-tel">15985698749</p>
-      </div>
-      <p>收货地址:<span>河南省郑州市中原区秦岭路8号院59号单元28层15号东户第三家</span></p>
-    </div>
-
-    <div class="pay-product">
-      <ul v-if="!confirm">
-        <li v-for="k in carList">
-          <a>
-            <img :src="k.imgPath" alt="">
-            <div>
-              <h2><span style="color:#ee7150"> {{k.size}} - {{k.col}} </span>- {{k.title}} -</h2>
-              <p>{{k.price}} 元</p>
-            </div>
-          </a>
-        </li>
-      </ul>
-
-      <!-- 支付成功后的提示 -->
-      <div class="pay-confirm" v-else>
-        支付成功!!!</br>
-        当页面数据清空</br>
-        购物车列表重新设置
-      </div>
-    </div>
-    <h3 class="pay-allpay">总需要支付 : <i>￥</i><span>{{allpay}}</span></h3>
-    <footer class="pay-footer" ontouchstrat="" @click="payConfirm">
-      <span>立即支付</span>
-    </footer>
-
-
-  </div>
+<div>
+  <div class="extract-type">
+				<div class="style">
+					<mt-switch v-model="payType" @change="deliveryType">{{payText}}</mt-switch>
+				</div>
+				<div class="time-info">
+					<div class="now">立即配送</div>
+					<div class="time">约<span>12:00</span>送达</div>
+				</div>
+			</div>
+			<div class="block">
+				<div class="adress-wrap">
+					<div class="title">配送信息</div>
+					<div class="row">
+						<span class="icon">11</span>
+						<div class="address">河南省郑州市东区商务外环京飞大厦2楼</div>
+						<div class="icon-right">></div>
+					</div>
+					<div class="row">
+						<span class="icon">22</span>
+						<div class="user-info">18768871893 <span>周先生</span></div>
+					</div>
+				</div>
+				<div class="order-wrap">
+					<div class="title">订单信息</div>
+					<div class="row">
+						<div class="order-info">
+							<div class="name">卡布依内奇兵</div>
+							<div class="type">大、默认奶油</div>
+						</div>
+						<div class="order-count">{{orderNum}}</div>
+						<div class="order-price">￥{{orderPrice}}</div>
+					</div>
+					<div class="row">
+						<div class="order-info">
+							<div class="name">配送费</div>
+							<div class="activity">面价满55元免配送费</div>
+						</div>
+						<div class="order-price">￥{{deliveryPrice}}</div>
+					</div>
+				</div>
+				<div class="totole-monty">合计<span class="result">￥{{totolePrice}}</span></div>
+			</div>
+			<div class="block list-wrap plcehoder">
+				<div class="row">
+					<div class="left">使用优惠</div>
+					<div class="right">
+						<mt-switch :value.sync="discounts"></mt-switch>
+					</div>
+				</div>
+				<div class="row">
+					<div class="left">使用咖啡钱包<span class="discounts">充值优惠</span></div>
+					<div class="right">无可用</div>
+				</div>
+				<div class="row">
+					<div class="left">使用优惠</div>
+					<div class="right">-￥18.27 <span class="icon-right">></span></div>
+				</div>
+				<div class="row bor-0">
+					<div class="left">支付方式</div>
+					<div class="right">微信支付<span class="icon-right">></span></div>
+				</div>
+			</div>
+			<div class="fiexd">
+				<div class="result-money">还需支付 <span>￥16.26</span></div>
+				<div class="go-pay">去支付</div>
+			</div>
+</div>
+  
 </template>
 
 <script>
@@ -62,10 +82,18 @@ export default {
     return {
       payType: true,
       payText: "自提",
-      confirm: ""
+      confirm: "",
+      discounts: false,
+      orderNum: "2",
+      orderPrice: "27",
+      deliveryPrice: "6",
+      totolePrice: "0"
     };
   },
 
+  created() {
+    this.totolePrice = orderPrice + deliveryPrice;
+  },
   computed: {
     //所有商品列表
     carList() {
@@ -114,7 +142,7 @@ export default {
         alert("请勿重复提交订单");
       }
     },
-    changePay() {
+    deliveryType() {
       if (this.payType) {
         this.payText = "自提";
       } else {
@@ -127,130 +155,132 @@ export default {
 
 <style lang="less" scoped>
 @import "../../../assets/fz.less";
-.pay {
+* {
+  padding: 0;
+  margin: 0;
+}
+
+html,
+body {
+  background: #f0f0f0;
+}
+
+.extract-type {
+  background: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px;
+  margin-bottom: 10px;
+}
+
+.extract-type .time span {
+  color: #26a2ff;
+}
+
+.block {
+  margin-bottom: 10px;
+  line-height: 1.4;
+  background: #fff;
+  padding: 10px;
+}
+
+.row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.adress-wrap {
+  border-bottom: 1px solid #f0f0f0;
+  padding-bottom: 10px;
+}
+
+.adress-wrap .row {
+  justify-content: flex-start;
+}
+
+.adress-wrap .row .icon {
+  padding-right: 5px;
+}
+
+.order-wrap {
+  padding-top: 10px;
+}
+
+.order-wrap .row {
+  padding: 10px 0;
+}
+
+.totole-monty {
+  padding: 10px 0 0;
+  text-align: right;
+  border-top: 1px solid #ccc;
+}
+
+.totole-monty .result {
+  font-size: 20px;
+}
+
+.list-wrap {
+  padding: 0 10px;
+}
+
+.list-wrap .row {
+  padding: 15px 10px;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.discounts {
+  padding: 4px 8px;
+  color: #fff;
+  background: #26a2ff;
+  border-radius: 4px;
+  margin-left: 10px;
+}
+
+.fiexd {
+  position: fixed;
+  left: 0;
+  bottom: 0;
   width: 100%;
-  background-color: #f7f7f7;
+  height: 60px;
+  line-height: 60px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #fff;
+}
 
-  .pay-address {
-    background-color: #fff;
-    border-bottom: 1 * 10vw/75 solid #dedede;
-    padding: 30 * 10vw/75;
+.fiexd .result-money {
+  padding-left: 10px;
+  flex: 1;
+}
 
-    > div {
-      display: -webkit-flex;
-      display: -ms-flex;
-      display: flex;
-      justify-content: space-between;
+.address {
+  flex: 1;
+}
 
-      p {
-        color: #868686;
-        .fz(font-size, 32px);
-      }
-    }
+.fiexd .go-pay {
+  width: 150px;
+  color: #fff;
+  background: #26a2ff;
+  text-align: center;
+}
 
-    > p {
-      .fz(font-size, 28px);
-      color: #868686;
-      padding-top: 30 * 10vw/75;
-      letter-spacing: 3 * 10vw/75;
-      line-height: 45 * 10vw/75;
-    }
-  }
-  .pay-product {
-    background-color: #fff;
-    height: 60vw;
-    overflow: auto;
+.bor-0 {
+  border: none !important;
+}
 
-    li {
-      a {
-        display: -webkit-flex;
-        display: -ms-flex;
-        display: flex;
-        box-sizing: border-box;
-        padding: 20 * 10vw/75 30 * 10vw/75;
-        color: #4d4d4d;
-        .fz(font-size, 30px);
-        border-bottom: 1 * 10vw/75 solid #dedede;
+.plcehoder {
+  margin-bottom: 62px;
+}
 
-        > img {
-          display: block;
-          width: 2.5 * 10vw;
-          height: 2.5 * 10vw;
-        }
+.icon-right {
+  padding-left: 6px;
+}
 
-        > div {
-          box-sizing: border-box;
-          padding-left: 50 * 10vw/75;
-          width: 70%;
-          h2 {
-            padding-top: 0.09 * 10vw;
-            overflow: hidden;
-            word-break: keep-all;
-            white-space: nowrap;
-            text-overflow: ellipsis;
-          }
-
-          p {
-            text-align: right;
-            .fz(font-size, 24px);
-            padding-top: 1.4 * 10vw;
-          }
-        }
-      }
-    }
-  }
-
-  .pay-allpay {
-    text-align: right;
-    margin-top: 6vw;
-    padding: 4vw 5vw;
-    .fz(font-size, 32px);
-    color: #999999;
-    background-color: #fff;
-    i,
-    span {
-      color: @cl;
-    }
-  }
-
-  .pay-footer {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    padding-bottom: 4vw;
-    span {
-      display: block;
-      width: 85%;
-      background-color: #fd729c;
-      border-radius: 1.3vw;
-      color: #fff;
-      font-size: 17px;
-      padding: 4vw;
-      margin: 0 auto;
-      text-align: center;
-      &:active {
-        background-color: @cl;
-      }
-    }
-  }
-
-  .pay-confirm {
-    padding: 20px 0;
-    background-color: @cl;
-    text-align: center;
-    color: #fff;
-    line-height: 30px;
-    .fz(font-size, 40);
-  }
-  .pay-type {
-    height: 12vw;
-    background-color: #fff;
-    padding: 4vw 0 0 5vw;
-    margin-bottom: 2vw;
-  }
-  .mint-switch {
-    display: inline;
-  }
+.activity {
+  color: #26a2ff;
 }
 </style>

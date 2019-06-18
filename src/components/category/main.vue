@@ -2,10 +2,7 @@
   <div class="main">
     <!-- <h2>{{_datas.title}}</h2> -->
     <ul>
-      <li
-         v-for="(k,i) in _datas.list"
-         :key='i'
-      >
+      <li v-for="(k,i) in _datas.list" :key='i'>
         <router-link :to="{name:'详情页'}">
           <div class='main-l'>
             <img v-lazy="k.imgPath">
@@ -13,7 +10,7 @@
          <div class='main-r'>
             <h1>{{k.title}}</h1>
             <p>默认：标准</p>
-            <h2>¥27</h2>
+            <h2>¥{{k.price}}</h2>
          </div>
         </router-link>
       </li>

@@ -31,7 +31,7 @@
       <p class="tip">Tip : 账号密码随便输</p>
     </section>
     <button class='btn' @click="login" v-if='toggle'>登录</button>
-    <button class='btn' @click="logout" v-else>退出登录</button>
+    <!-- <button class='btn' @click="logout" v-else>退出登录</button> -->
   </div>
 </template>
 
@@ -54,7 +54,7 @@ export default {
     login() {
       if (this.account !== "" && this.password !== "") {
         Toast("登录成功,存储token,跳转网页");
-        this.toggle = false;
+        // this.toggle = false;
         this.$store.commit("CHANGE_TOKEN", 1);
       } else {
         Toast("账号密码不能为空");

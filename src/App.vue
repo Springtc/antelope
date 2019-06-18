@@ -25,7 +25,7 @@ body,
 #app {
   width: 100%;
   height: 100%;
-  // background-color: #f8fcff;
+  background-color: #f8fcff;
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
 }
 

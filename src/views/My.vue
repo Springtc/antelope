@@ -1,18 +1,18 @@
 <template lang="html">
     <div class="my">
-      <!-- slot分发内容 让子组件混合父组件的内容 -->
-      <v-header>
-        <h1 slot="title">个人信息</h1>
-      </v-header>
-       <div class="block-item">
-            <div class="item">
+      <div class='list_first' v-show="list_first">
+        <v-header>
+          <h1 slot="title">个人信息</h1>
+        </v-header>
+        <div class="block-item">
+            <div class="item" >
                 <label class="label">头像</label>
                 <div class="form-text">
                   <img :src="userPic" alt="" class='userPic'>
                 </div>
                 >
             </div>
-            <div class="item">
+            <div class="item" @click='changeName'>
                 <label class="label">用户名</label>
                 <div class="form-text">{{userName}}</div>
                 >
@@ -38,21 +38,33 @@
                   >
               </div>
             </router-link>
-            
         </div>
         <button class='btn' @click="logout">退出登录</button>
-        <mt-picker :slots="slots" @change="onValuesChange" v-show="sexShow"  position="bottom"></mt-picker>
+         <mt-picker :slots="slots" @change="onValuesChange" v-show="sexShow"  position="bottom"></mt-picker>
+      </div>
+      <div class="list_two" v-show="list_two">
+        <div style="width:100%;height:12vw;margin-bottom:1vw;background-color: #fff;">
+          <h1 style='height: 12vw;text-align: center;line-height: 12vw;font-weight: bold;'>用户名</h1>
+        </div>
+          <div class="block-item">
+            <mt-field label="用户名" type = "text" v-model = "userName" ></mt-field>
+          </div>
+          <button class='btn' @click="submitName">确定</button>
+      </div>
       <v-footer/>
     </div>
 </template>
 
 <script>
+import axios from "axios";
 import Header from "@/common/_header.vue";
 import Footer from "@/common/_footer.vue";
 import { Toast, Picker } from "mint-ui";
 export default {
   data() {
     return {
+      list_first: true,
+      list_two: false,
       userName: "Spring",
       userSex: "男",
       userPhone: "15757101915",
@@ -81,6 +93,25 @@ export default {
     }
   },
   methods: {
+    changeName() {
+      this.list_first = false;
+      this.list_two = true;
+    },
+    submitName() {
+      this.list_first = true;
+      this.list_two = false;
+      axios({
+        method: post,
+        url: "",
+        data: {
+          userName: this.userName
+        }
+      })
+        .then(res => {
+          console.log(res);
+        })
+        .catch(err => {});
+    },
     showPicker() {
       this.sexShow = true;
     },
@@ -104,7 +135,7 @@ export default {
 
 <style lang="less" scoped>
 .block-item {
-  margin-bottom: 1vw;
+  margin-bottom: 4vw;
   font-size: 3vw;
 }
 

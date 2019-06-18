@@ -94,30 +94,39 @@ var category = Mock.mock('http://api.com/category', {
         'list': [{
             'title': '红茶拿铁',
             'imgPath': './static/homePic/drink1.jpg',
+            'price': '17'
         }, {
             'title': '@last',
             'imgPath': './static/homePic/drink2.jpg',
+            'price': '27'
         }, {
             'title': '@last',
             'imgPath': './static/homePic/drink3.jpg',
+            'price': '19'
         }, {
             'title': '@last',
             'imgPath': './static/homePic/drink4.jpg',
+            'price': '14'
         }, {
             'title': '@last',
             'imgPath': './static/homePic/drink5.jpg',
+            'price': '21'
         }, {
             'title': '@last',
             'imgPath': './static/homePic/drink6.jpg',
+            'price': '19'
         }, {
             'title': '@last',
             'imgPath': './static/homePic/drink7.jpg',
+            'price': '12'
         }, {
             'title': '@last',
             'imgPath': './static/homePic/drink8.jpg',
+            'price': '15'
         }, {
             'title': '@last',
             'imgPath': './static/homePic/drink9.jpg',
+            'price': '7'
         }]
     }, {
         'title': '沙冰',
