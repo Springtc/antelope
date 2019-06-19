@@ -13,9 +13,9 @@
       <mt-field label="地址" placeholder="请选择您的地址" v-model="address"></mt-field>
       <mt-field label="门牌号" placeholder="例：5号楼203室" v-model="doorNum"></mt-field>
       <mt-field label="标签" placeholder="" v-model="tag">
-        <mt-badge size="large" color="#aac4e0">公司</mt-badge>
-        <mt-badge size="large" color="#aac4e0">家</mt-badge>
-        <mt-badge size="large" color="#aac4e0">学校</mt-badge>
+       <span>公司</span>
+        <span>学校</span>
+         <span>家</span>
       </mt-field>
       <mt-field ></mt-field>
       <button class='btn' @click="addAddress">保存</button>
@@ -23,6 +23,7 @@
 </template>
 
 <script>
+import axios from "axios";
 import Header from "@/common/_header.vue";
 
 export default {
@@ -53,6 +54,22 @@ export default {
   },
   methods: {
     addAddress() {
+      axios({
+        method: "post",
+        url: "",
+        data: {
+          contacts: this.contacts,
+          sex: this.sex,
+          phone: this.phone,
+          address: this.address,
+          doorNum: this.doorNum,
+          tag: this.tag
+        }
+      })
+        .then(res => {
+          console.log(res);
+        })
+        .catch(err => {});
       console.log(1111);
     }
   }
