@@ -47,8 +47,9 @@
          <mt-picker :slots="slots" @change="onValuesChange" v-show="sexShow"  position="bottom"></mt-picker>
       </div>
       <div class="list_two" v-if="list_two">
-          <div style="width:100%;height:12vw;margin-bottom:1vw;background-color: #fff;">
-            <h1 style='height: 12vw;text-align: center;line-height: 12vw;font-weight: bold;'>{{titleName}}</h1>
+          <div class="list_header" >
+            <span class="icon-go" @click="returnBack"></span>
+            <h1>{{titleName}}</h1>
           </div>
           <div class="block-item" v-if="item1">
             <mt-field label="用户名" type = "text" v-model = "userName" ></mt-field>
@@ -118,6 +119,17 @@ export default {
     }
   },
   methods: {
+    returnBack() {
+      this.list_first = true;
+      this.list_two = false;
+      if (this.index == "1") {
+        this.item1 = false;
+      } else if (this.index == "2") {
+        this.item2 = false;
+      } else if (this.index == "3") {
+        this.item3 = false;
+      }
+    },
     changeList(index) {
       this.list_first = false;
       this.list_two = true;
@@ -181,6 +193,27 @@ export default {
 </script>
 
 <style lang="less" scoped>
+.list_header {
+  background-color: #f8fcff;
+  text-align: center;
+  position: relative;
+  height: 12vw;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 4vw;
+}
+.list_header span {
+  display: inline-block;
+  font-size: 23px;
+  transform: rotate(-180deg);
+}
+.list_header h1 {
+  font-size: 17px;
+  letter-spacing: 0.2vw;
+  font-weight: 600;
+  margin-right: 40vw;
+}
 .block-item {
   margin-bottom: 4vw;
   font-size: 3vw;
