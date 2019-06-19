@@ -1,6 +1,6 @@
 <template lang="html">
     <div class="my">
-      <div class='list_first' v-show="list_first">
+      <div class='list_first' v-if="list_first">
         <v-header>
           <h1 slot="title">个人信息</h1>
         </v-header>
@@ -11,21 +11,25 @@
                   <img :src="userPic" alt="" class='userPic'>
                 </div>
             </div>
-            <div class="item" @click='changeName'>
+            <div class="item" @click='changeList(1)'>
                 <label class="label">用户名</label>
                 <div class="form-text">{{userName}}</div>
+                >
             </div>
             <div class="item" @click="showPicker">
                 <label class="label">性别</label>
                 <div class="form-text">{{userSex}}</div>
+                >
             </div>
-            <div class="item">
+            <div class="item" @click='changeList(2)'>
                 <label class="label">年龄</label>
                 <div class="form-text">{{userAge}}</div>
+                >
             </div>
-            <div class="item">
+            <div class="item" @click='changeList(3)'>
                 <label class="label">学号</label>
                 <div class="form-text">{{userSno}}</div>
+                >
             </div>
              <div class="item">
                 <label class="label">余额</label>
@@ -42,12 +46,18 @@
         <button class='btn' @click="logout">退出登录</button>
          <mt-picker :slots="slots" @change="onValuesChange" v-show="sexShow"  position="bottom"></mt-picker>
       </div>
-      <div class="list_two" v-show="list_two">
-        <div style="width:100%;height:12vw;margin-bottom:1vw;background-color: #fff;">
-          <h1 style='height: 12vw;text-align: center;line-height: 12vw;font-weight: bold;'>用户名</h1>
-        </div>
-          <div class="block-item">
+      <div class="list_two" v-if="list_two">
+          <div style="width:100%;height:12vw;margin-bottom:1vw;background-color: #fff;">
+            <h1 style='height: 12vw;text-align: center;line-height: 12vw;font-weight: bold;'>{{titleName}}</h1>
+          </div>
+          <div class="block-item" v-if="item1">
             <mt-field label="用户名" type = "text" v-model = "userName" ></mt-field>
+          </div>
+           <div class="block-item" v-if="item2">
+            <mt-field label="年龄" type = "text" v-model = "userAge" ></mt-field>
+          </div> 
+          <div class="block-item" v-if="item3">
+            <mt-field label="学号" type = "text" v-model = "userSno" ></mt-field>
           </div>
           <button class='btn' @click="submitName">确定</button>
       </div>
@@ -73,10 +83,17 @@ export default {
       userWx: "已绑定",
       userAdress: "",
       userAge: "27",
+      titleName: "",
+      item1: false,
+      item2: false,
+      item3: false,
+      index: "",
       slots: [
         {
           values: ["男", "女"],
-          defaultIndex: 0
+          defaultIndex: 0,
+          value: "男",
+          valueKey: 0
         }
       ],
       sexShow: false,
@@ -101,13 +118,31 @@ export default {
     }
   },
   methods: {
-    changeName() {
+    changeList(index) {
       this.list_first = false;
       this.list_two = true;
+      this.index = index;
+      if (index == "1") {
+        this.titleName = "用户名";
+        this.item1 = true;
+      } else if (index == "2") {
+        this.titleName = "年龄";
+        this.item2 = true;
+      } else if (index == "3") {
+        this.titleName = "学号";
+        this.item3 = true;
+      }
     },
     submitName() {
       this.list_first = true;
       this.list_two = false;
+      if (this.index == "1") {
+        this.item1 = false;
+      } else if (this.index == "2") {
+        this.item2 = false;
+      } else if (this.index == "3") {
+        this.item3 = false;
+      }
       axios({
         method: "post",
         url: "",
@@ -128,14 +163,12 @@ export default {
       this.sexShow = true;
     },
     onValuesChange(picker, values) {
-      if (values) {
-        this.userSex = values[0];
-      }
-      console.log(values);
+      this.userSex = values[0];
       this.sexShow = false;
     },
     //退出登录按钮
     logout() {
+      alert("确定退出？");
       Toast("退出登录成功,清除token");
       this.$store.commit("CHANGE_TOKEN", 0);
       this.toggle = true;
