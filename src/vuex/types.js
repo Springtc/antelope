@@ -43,5 +43,11 @@ export const SET_LOADING = 'SET_LOADING'
 // 改变token(权限)
 export const CHANGE_TOKEN = 'CHANGE_TOKEN'
 
+// 改变token(权限)
+export const CHANGE_USER = 'CHANGE_USER'
+
 // 分类页的aside index
 export const CHANGE_TABINDEX = 'CHANGE_TABINDEX'
+
+//改变接口的调用地址
+export const CHANGE_WSPSERVER = 'CHANGE_WSPSERVER'

@@ -11,9 +11,11 @@ Vue.use(Mint);
 Vue.config.productionTip = false
 Vue.prototype.$api = api;
 
+// 根据环境的不同，赋予变量不同的值
+var env = require('./env/' + process.env.NODE_ENV + '.env.js');
+store.commit("CHANGE_WSPSERVER", env.wspServer);
 
 // 用钩子函数beforeEach()对路由进行判断
-
 router.beforeEach((to, from, next) => {
     if (to.meta.requireAuth) {  // 需要权限,进一步进行判断
       if (store.state.login.token) {  // 通过vuex state获取当前的token是否存在

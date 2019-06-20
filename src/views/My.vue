@@ -13,27 +13,26 @@
             </div>
             <div class="item" @click='changeList(1)'>
                 <label class="label">用户名</label>
-                <div class="form-text">{{userName}}</div>
+                <div class="form-text">{{userInfoVo.userInfo.userName}}</div>
                 >
             </div>
             <div class="item" @click="showPicker">
                 <label class="label">性别</label>
-                <div class="form-text">{{userSex}}</div>
-                >
+                <div class="form-text">{{userInfoVo.userExtendInfo.sex}}</div>
             </div>
             <div class="item" @click='changeList(2)'>
                 <label class="label">年龄</label>
-                <div class="form-text">{{userAge}}</div>
+                <div class="form-text">{{userInfoVo.userExtendInfo.age}}</div>
                 >
             </div>
             <div class="item" @click='changeList(3)'>
                 <label class="label">学号</label>
-                <div class="form-text">{{userSno}}</div>
+                <div class="form-text">{{userInfoVo.userExtendInfo.sno}}</div>
                 >
             </div>
              <div class="item">
                 <label class="label">余额</label>
-                <div class="form-text">¥{{userRemainder}}</div>
+                <div class="form-text">¥{{userInfoVo.userExtendInfo.remainder}}</div>
             </div>
             <router-link :to="{ name: '我的地址'}" class="my-settle-top">
               <div class="item">
@@ -52,13 +51,13 @@
             <h1>{{titleName}}</h1>
           </div>
           <div class="block-item" v-if="item1">
-            <mt-field label="用户名" type = "text" v-model = "userName" ></mt-field>
+            <mt-field label="用户名" type = "text" v-model = "userInfoVo.userInfo.userName" ></mt-field>
           </div>
            <div class="block-item" v-if="item2">
-            <mt-field label="年龄" type = "text" v-model = "userAge" ></mt-field>
+            <mt-field label="年龄" type = "text" v-model = "userInfoVo.userExtendInfo.age" ></mt-field>
           </div> 
           <div class="block-item" v-if="item3">
-            <mt-field label="学号" type = "text" v-model = "userSno" ></mt-field>
+            <mt-field label="学号" type = "text" v-model = "userInfoVo.userExtendInfo.sno" ></mt-field>
           </div>
           <button class='btn' @click="submitName">确定</button>
       </div>
@@ -74,16 +73,9 @@ import { Toast, Picker } from "mint-ui";
 export default {
   data() {
     return {
+      userInfoVo:{userInfo:{},userExtendInfo:{}},
       list_first: true,
       list_two: false,
-      userName: "Spring",
-      userSex: "男",
-      userSno: "31202209",
-      userRemainder: "300",
-      userPhone: "15757101915",
-      userWx: "已绑定",
-      userAdress: "",
-      userAge: "27",
       titleName: "",
       item1: false,
       item2: false,
@@ -113,10 +105,7 @@ export default {
     }
   },
   mounted() {
-    // 防止刷新页面数据为空
-    if (this.$store.state.detail.count == "") {
-      this.$store.commit("RESET_COUNT");
-    }
+      this.search();
   },
   methods: {
     returnBack() {
@@ -155,28 +144,21 @@ export default {
       } else if (this.index == "3") {
         this.item3 = false;
       }
-      axios({
-        method: "post",
-        url: "",
-        data: {
-          userName: this.userName,
-          sex: this.userSex,
-          age: this.userAge,
-          sno: this.userSno,
-          remainder: this.userRemainder
-        }
-      })
-        .then(res => {
-          console.log(res);
-        })
-        .catch(err => {});
+        this.$api.post(this.$store.state.wspserver.wspServer + '/userInfo/updateUser',this.userInfoVo).then(response => {
+        });
     },
     showPicker() {
       this.sexShow = true;
     },
     onValuesChange(picker, values) {
-      this.userSex = values[0];
+      this.userInfoVo.userExtendInfo.sex = values[0];
       this.sexShow = false;
+      this.$api.post(this.$store.state.wspserver.wspServer + '/userInfo/updateUser',this.userInfoVo);
+    },
+    search() {
+          this.$api.get(this.$store.state.wspserver.wspServer + '/userInfo/getByUserId/' + this.$store.state.login.userId).then(response => {
+              this.userInfoVo = response.data.data;
+          });
     },
     //退出登录按钮
     logout() {

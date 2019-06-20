@@ -39,12 +39,13 @@ api.interceptors.response.use(function (response) {
     return response;
 
   }, function (error) {
+    console.log(error);
     // 对响应错误做点什么
     store.commit('SET_LOADING',false);
 
-    if(errore.response) {
+    if(response) {
 
-      if(error.response.status== 401) {
+      if(response.status== 401) {
           // 如果返回401 即没有权限，跳到登录页重新登录
         store.commit('CHANGE_TOKEN',0);
 

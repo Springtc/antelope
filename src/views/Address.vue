@@ -42,20 +42,7 @@ import Header from "@/common/_header.vue";
 export default {
   data() {
     return {
-      addressList: [
-        {
-          address: "景峰国际中心商务外环路27号（5楼）",
-          pag: "公司",
-          phone: "15757101915",
-          name: "郑先生"
-        },
-        {
-          address: "河南工程学院南校区",
-          pag: "学校",
-          phone: "15757101915",
-          name: "郑先生"
-        }
-      ]
+      addressList: [{}]
     };
   },
   components: {
@@ -71,12 +58,19 @@ export default {
     // 防止刷新页面数据为空
     if (this.$store.state.detail.count == "") {
       this.$store.commit("RESET_COUNT");
-    }
+    };
+    this.search();
+
   },
   methods: {
     addAddress() {
       console.log(1111);
-    }
+    },
+    search() {
+      this.$api.get(this.$store.state.wspserver.wspServer + '/userAddressInfo/getByUserId/' + this.$store.state.login.userId).then(response => {
+        this.addressList = response.data.data;
+      });
+    },
   }
 };
 </script>
