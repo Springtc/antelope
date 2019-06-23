@@ -1,9 +1,7 @@
 <template lang="html">
     <div class="swiper">
       <mt-swipe :auto="4000">
-        <mt-swipe-item v-for="k in swiper" :key="k.id">
-           <img :src="k.imgSrc">
-        </mt-swipe-item>
+           <img :src="this.$store.state.detail.productDatas.imgPath">
       </mt-swipe>
       <div class="back" @click="$router.go(-1)">
         <span class="icon-go"></span>
@@ -15,9 +13,6 @@
 <script>
 export default {
   computed: {
-    swiper () {
-      return this.$store.state.detail.productDatas.swiper
-    }
   }
 }
 </script>

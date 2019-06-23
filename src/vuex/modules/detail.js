@@ -5,8 +5,9 @@ import Vue from 'vue'
 // 容器
 const state = {
     productDatas: '', //detail父组件请求的当前页面商品数据
-    colSelected: 0, //0是index,表示第一个
-    sizeSelected: 0, //0是index,表示第一个
+    colSelected: '', //0是index,表示第一个
+    sizeSelected: '', //0是index,表示第一个
+    sweetSelected: '', //0是index,表示第一个
     count: 0, //购物车里的商品数量
     carList: '', //购物车的商品列表
     fetchLoading: false, //全局加载状态的Loading
@@ -31,15 +32,18 @@ const mutations = {
         state.productDatas = res
     },
 
-    //详情页商品颜色的选择
+    //详情页商品温度的选择
     [types.CHANGE_COL_SELECTED](state, res) {
         state.colSelected = res;
     },
 
-    //详情页商品尺寸的选择
-
+    //详情页商品规格的选择
     [types.CHANGE_SIZE_SELECTED](state, res) {
         state.sizeSelected = res;
+    },
+    //详情页商品甜度的选择
+    [types.CHANGE_SWEET_SELECTED](state, res) {
+        state.sweetSelected = res;
     },
 
     // 向购物车商品列表添加商品
@@ -85,14 +89,14 @@ let vm = new Vue({});
 const actions = {
 
     // 父组件发送异步请求
-    setDatas({ commit }) {
+    /*setDatas({ commit }) {
         vm.$api({
             method: 'post',
             url: "/detail"
         }).then(response => {
             commit('SET_DATAS', response.data);
         })
-    },
+    },*/
 
     // 购物车数量增减,true是加,false是减
     setLocalCount({ commit }, bool = true) {

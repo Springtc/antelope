@@ -1,18 +1,13 @@
 <template lang="html">
-  <section class="content">
-    <div class="img-wrap" v-for="k in content">
-      <img :src="k.imgSrc">
+    <div class="">
+      <img :src="this.$store.state.detail.productDatas.imgPath">
     </div>
-  </section>
-
 </template>
 
 <script>
 export default {
   computed: {
-    content() {
-      return this.$store.state.detail.productDatas.contentImgSrc;
-    }
+
   }
 };
 </script>

@@ -87,9 +87,11 @@ var detail = Mock.mock('http://api.com/detail', {
         'imgSrc': Random.image('400x400', '#ffcc33', '#FFF', 'png', ''),
         'id': '@id'
     }],
-}); 
-var category = Mock.mock('http://api.com/category', {
-    'aside': [{
+});
+var category = Mock.mock('http://api.com/category',
+    {
+    'aside': [
+        {
         'title': '羚羊咖啡',
         'list': [{
             'title': '红茶拿铁',
@@ -154,5 +156,5 @@ var category = Mock.mock('http://api.com/category', {
         }]
     }]
 
-}); 
-export { index, detail, category }
+});
+export {index, detail, category}

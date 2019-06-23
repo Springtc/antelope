@@ -3,7 +3,7 @@
     <div class="chose-view">
       <h1 class="chose-view-title">
         {{view.title}} ~~
-        <span>(已选 {{colText}} - {{sizeText}})</span>
+        <span>(已选 {{colText}} - {{sizeText}} - {{sweetText}})</span>
       </h1>
       <span>{{view.price}}元</span>
       <p class="chose-view-intro">{{view.intro}}</p>
@@ -12,24 +12,25 @@
     <div class="chose-mychosed" ontouchstart="">
       <div class="colChose">
         <span
-           v-for="(k,i) in view.chose"
-           :class="{active:colSelected==i}"
-           @click="colChose(i)"
-         >{{k.col}}</span>
+           v-for="(k,i) in view.goodsTemperature.split(',')"
+           @click="colChose(k)"
+         >{{k}}</span>
+      </div>
+      <div class="sweetChose">
+        <span
+           v-for="(k,i) in view.goodsSweetness.split(',')"
+           @click="sweetChose(k)"
+         >{{k}}</span>
       </div>
       <div class="sizeChose" >
         <span
-          v-for="(k,i) in view.chose"
-          :class="{active:sizeSelected==i}"
-          @click="sizeChose(i)"
+          v-for="(k,i) in view.goodsStandards.split(',')"
+          @click="sizeChose(k)"
         >
-          {{k.size}}
+          {{k}}
         </span>
       </div>
     </div>
-
-
-
   </section>
 
 
@@ -41,25 +42,29 @@ import { mapState } from "vuex";
 
 export default {
   computed: mapState({
-    view: state => state.detail.productDatas.view,
-    colSelected: state => state.detail.colSelected,
-    sizeSelected: state => state.detail.sizeSelected,
+    view: state => state.detail.productDatas,
     // 返回当前选择颜色的值(innerText)
     colText() {
-      return this.view.chose[this.colSelected].col;
+      return this.$store.state.detail.colSelected;
     },
     // 返回当前选择规格的值(innerText)
     sizeText() {
-      return this.view.chose[this.sizeSelected].size;
+      return this.$store.state.detail.sizeSelected;
+    },
+    sweetText() {
+      return this.$store.state.detail.sweetSelected;
     }
   }),
   methods: {
     //点击后把i赋值给colSelected,再通过判断决定是否添加选中样式 (active)
-    colChose(i) {
-      this.$store.commit("CHANGE_COL_SELECTED", i);
+    colChose(val) {
+      this.$store.commit("CHANGE_COL_SELECTED", val);
     },
-    sizeChose(i) {
-      this.$store.commit("CHANGE_SIZE_SELECTED", i);
+    sizeChose(val) {
+      this.$store.commit("CHANGE_SIZE_SELECTED", val);
+    },
+    sweetChose(val) {
+      this.$store.commit("CHANGE_SWEET_SELECTED", val);
     }
   }
 };

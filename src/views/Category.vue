@@ -26,20 +26,13 @@ export default {
   },
   data() {
     return {
-      allData: {}
+      allData: {"aside":[]}
     };
   },
   created() {
-    this.$api({
-      method: "post",
-      url: "/category"
-    })
-      .then(res => {
-        this.allData = res.data;
-      })
-      .catch(error => {
-        console.log(error);
-      });
+    this.$api.get(this.$store.state.wspserver.wspServer + '/goodsInfo/getGoodsList').then(response => {
+      this.allData.aside = response.data.data;
+    });
   }
 };
 </script>

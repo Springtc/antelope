@@ -11,6 +11,8 @@ export const CHANGE_COL_SELECTED = 'CHANGE_COL_SELECTED'
 
 export const CHANGE_SIZE_SELECTED = 'CHANGE_SIZE_SELECTED'
 
+export const CHANGE_SWEET_SELECTED = 'CHANGE_SWEET_SELECTED'
+
 //footer组件中保存添加的商品的数据
 
 export const ADD_PRODUCT = 'ADD_PRODUCT'

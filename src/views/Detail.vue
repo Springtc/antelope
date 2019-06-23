@@ -2,7 +2,7 @@
   <div class="detail">
     <v-swiper/>
     <v-chose/>
-    <v-content/>
+   <!-- <v-content/>-->
     <v-baseline/>
     <v-footer/>
   </div>
@@ -14,7 +14,6 @@ import Chose from "@/components/detail/chose.vue";
 import Content from "@/components/detail/content.vue";
 import Footer from "@/components/detail/footer.vue";
 import Baseline from "@/common/_baseline.vue";
-import detail from "@/http/mock.js"; //模拟数据
 export default {
   components: {
     "v-swiper": Swiper,
@@ -25,7 +24,9 @@ export default {
   },
 
   beforeCreate() {
-    this.$store.dispatch("setDatas");
+    this.$store.commit("CHANGE_COL_SELECTED", '');
+    this.$store.commit("CHANGE_SIZE_SELECTED", '');
+    this.$store.commit("CHANGE_SWEET_SELECTED", '');
   }
 };
 </script>

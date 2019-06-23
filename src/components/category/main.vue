@@ -2,8 +2,8 @@
   <div class="main">
     <!-- <h2>{{_datas.title}}</h2> -->
     <ul>
-      <li v-for="(k,i) in _datas.list" :key='i'>
-        <router-link :to="{name:'详情页'}">
+      <li v-for="(k,i) in _datas.list" :key='i' @click="openDetail(k)">
+        <router-link :to="{name:'详情页'}" >
           <div class='main-l'>
             <img v-lazy="k.imgPath">
           </div>
@@ -41,7 +41,12 @@ export default {
       };
       return this.datas[this.tabIndex] || _datas;
     }
-  }
+  },
+    methods:{
+        openDetail(val){
+            this.$store.commit('SET_DATAS', val);
+        }
+    }
 };
 </script>
 
